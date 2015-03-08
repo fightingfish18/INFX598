@@ -1,0 +1,13 @@
+.userInput {
+	height: 75%;
+	width: 100%;
+	min-height: 45vh;
+}
+
+.center {
+	text-align: center;
+}
+
+body {
+	padding-top: 70px;
+}
