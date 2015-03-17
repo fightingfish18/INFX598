@@ -23,6 +23,7 @@ ul {
 	position: relative;
 	min-height: 30em;
 	max-height: 30em;
+	text-align: left;
 }
 
 .bar {
