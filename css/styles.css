@@ -15,3 +15,11 @@ body {
 ul {
 	list-style-type: none !important;
 }
+
+.dataCol {
+	overflow: scroll;
+	border: 2px solid black;
+	position: relative;
+	min-height: 30em;
+	max-height: 30em;
+}

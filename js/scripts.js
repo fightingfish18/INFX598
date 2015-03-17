@@ -3,29 +3,39 @@ $(function() {
 	$('.submit').click(function(e) {
 		var words = $('.userInput').val().split(' ');
 		var wordMap = {};
-		var stemMap = {};
+		var stems = [];
 		jQuery('.wordList').html("");
-		jQuery.each(words, function() {
-			if (stops.indexOf(this) == -1) {
-				//var stem = stemmer(this);
-				console.log(this);
-				//console.log(stem);
-				if (wordMap[this]) {
-					wordMap[this]["count"]++;
+		for (var i = 0; i < words.length; i++) {
+			var word = words[i].toLowerCase().replace(/\b[-.,()&$#!\[\]{}"']+\B|\B[-.,()&$#!\[\]{}"']+\b/g, "");
+			var stem = stemmer(word);
+			if (stops.indexOf(word) == -1) {
+				var stem = stemmer(word);
+				if (wordMap[word]) {
+					wordMap[word]["count"]++;
 				} else {
-					wordMap[this] = {};
-					//wordMap[this]["stem"] = stem;
-					wordMap[this]["count"] = 1;
+					wordMap[word] = {};
+					wordMap[word]["stem"] = stem;
+					wordMap[word]["count"] = 1;
 				}
-				/*if (stemMap[stem]) {
-					stemMap[stem]++;
-				} else {
-					stemMap[stem] = 1;
-				} */
+				var found = false;
+				for (var j = 0; j < stems.length; j++) {
+					if (stems[j].indexOf(stem) != -1) {
+						stems[j][1]++;
+						found = true;
+					}
+				}
+				if (!found) {
+					stems.push([stem, 1]);
+				}
 			}
-		});
-		console.log(wordMap);
-		console.log(stemMap);
+		}
+		stems = stems.sort(sortBySize);
+		if (stems.length > 10) {
+			var sortedStems = stems.slice(stems.length - 11, stems.length);
+			graph(sortedStems); 
+		} else {
+			graph(stems);
+		}
 	});
 
 	function findSynonym(word) {
@@ -44,12 +54,20 @@ $(function() {
 		});
 	}
 
-	//findSynonym("comput");
+	function sortBySize(a, b) {
+    	if (a[1] === b[1]) {
+        return 0;
+	    }
+	    else {
+	        return (a[1] < b[1]) ? -1 : 1;
+	    }
+	}
 
-	var toStem = stemmer("computational");
-	console.log(toStem);
+	for (var i = 0; i < 200; i++) {
+		$('.wordList').append("<p>Yep</p>");
+	}
 
-	function sortBySize(number1, number2) {
-    	return number2 - number1;
+	function graph(data) {
+
 	}
 });
