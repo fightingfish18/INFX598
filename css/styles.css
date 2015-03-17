@@ -23,3 +23,12 @@ ul {
 	min-height: 30em;
 	max-height: 30em;
 }
+
+.bar {
+	fill: blue;
+	opacity: .6;
+}
+
+.bar:hover {
+	opacity: 1;
+}
