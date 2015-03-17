@@ -8,7 +8,7 @@ $(function() {
 		for (var i = 0; i < words.length; i++) {
 			var word = words[i].toLowerCase().replace(/\b[-.,()&$#!\[\]{}"']+\B|\B[-.,()&$#!\[\]{}"']+\b/g, "");
 			var stem = stemmer(word);
-			if (stops.indexOf(word) == -1) {
+			if (stops.indexOf(word) == -1 && word.length > 0) {
 				var stem = stemmer(word);
 				if (wordMap[word]) {
 					wordMap[word]["count"]++;
@@ -32,11 +32,24 @@ $(function() {
 		stems = stems.sort(sortBySize);
 		if (stems.length > 10) {
 			var sortedStems = stems.slice(stems.length - 11, stems.length);
-			graph(sortedStems); 
+			graph(sortedStems);
 		} else {
 			graph(stems);
 		}
+		populateUsageList(wordMap); 
 	});
+
+	function populateUsageList(wordMap) {
+		$.each(wordMap, function(key, value) {
+			if (value.count > 5) {
+				$('.wordList').append("<li><span class='clickable'>" + key + "</span></li>");
+			}
+		});
+		$('.clickable').click(function() {
+			console.log(this.innerHTML);
+			findSynonym(this.innerHTML);
+		});
+	}
 
 	function findSynonym(word) {
 		$.ajax({
@@ -44,8 +57,10 @@ $(function() {
 			dataType : 'json',
 			success : function(res) {
 				$.each(res, function(key, value) {
-					console.log(key);
-					console.log(this.syn);
+					$('.synonymList').append("<li><span class='typeSpeech'>" + key + "</span></li>");
+					for (var i = 0; i < this.syn.length; i++) {
+						$('.synonymList').append("<li>" + this.syn[i] + "</li>");
+					}
 				});
 			},
 			error : function(e) {
