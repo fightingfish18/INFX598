@@ -7,6 +7,7 @@ $(function() {
 		$('.wordList').html("");
 		$('.synonymList').html("");
 		var words = $('.userInput').val().split(' ');
+		var ignoreList = $('.ignoreList').val().split(' ');
 		var wordMap = {};
 		var stems = [];
 		jQuery('.wordList').html("");
@@ -14,7 +15,8 @@ $(function() {
 			//Strip ending punctuation.
 			var word = words[i].toLowerCase().replace(/\b[-.,()&$#!\[\]{}"']+\B|\B[-.,()&$#!\[\]{}"']+\b/g, "");
 			var stem = stemmer(word);
-			if (stops.indexOf(word) == -1 && word.length > 0) {
+			//Check if the word is not a stop word or on the user ignore list before adding to the wordMap.
+			if (stops.indexOf(word) == -1 && word.length > 0 && ignoreList.indexOf(word) == -1) {
 				var stem = stemmer(word);
 				if (wordMap[word]) {
 					wordMap[word]["count"]++;
@@ -49,9 +51,6 @@ $(function() {
 	function populateUsageList(wordMap) {
 		$('.wordList').html("");
 		var threshold = $('.numItem').val();
-		if (!$.isNumeric(threshold)) {
-			threshold = 10;
-		}
 		$.each(wordMap, function(key, value) {
 			if (value.count >= threshold) {
 				$('.wordList').append("<li><span class='clickable'>" + key + "</span></li>");
@@ -89,7 +88,7 @@ $(function() {
 	//Custom sorting function for js array.sort() method
 	function sortBySize(a, b) {
     	if (a[1] === b[1]) {
-        return 0;
+        	return 0;
 	    } else {
 	        return (a[1] < b[1]) ? -1 : 1;
 	    }

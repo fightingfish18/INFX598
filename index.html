@@ -14,16 +14,17 @@
 	<div class="row">
 		<div class="col-md-6 center">
 			<textarea class="userInput" placeholder="Input Text Here..."></textarea>
+			<input type="text" class="ignoreList" placeholder="Input List of Words to Ignore, separate by space character">
 			<button class="submit">Analyze</button>
 		</div>
 		<div class="col-md-3 center dataCol">
 			<h2>Words with High Usage:</h2>
-			<select class='numItem' placeholder="Select x or higher usages">
-				<option value="">Select Usage Threshold(default is 10)</option>
-				<option value="5">5</option>
-				<option value="10">15</option>
-				<option value="20">25</option>
-				<option value="50">50</option>
+			<select class='numItem'>
+				<option value="5">5+ uses</option>
+				<option value="10">10+ uses</option>
+				<option value="10">15+ uses</option>
+				<option value="20">25+ uses</option>
+				<option value="50">50+ uses</option>
 			</select>
 			<ul class="wordList"></ul>
 		</div>
