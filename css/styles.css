@@ -12,6 +12,10 @@ body {
 	padding-top: 70px;
 }
 
+.yellow {
+	background-color: yellow;
+}
+
 ul {
 	list-style-type: none !important;
 	text-align: left;
